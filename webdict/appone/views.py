@@ -8,22 +8,30 @@ from django.contrib import messages
 # Create your views here.
 
 def index(request):
-    query_list = DictWord.objects.all()
-    dict_DictWord = {'words': query_list}
-
+    #create form
     form = SecondForm()
+
+    query_list = DictWord.objects.all()
+    dict_DictWord = {'words': query_list,"form":form}
     if request.method == "POST":
         form = SecondForm(request.POST)
         if form.is_valid():
             ##delete object from data base
-            #DictWord.objects.filter(name=form.cleaned_data['name'])
+            data = str(form.cleaned_data['name'])
+            #naim = request.POST.get('name')
+            print(data)
+            try:
+                DictWord.objects.filter(name=data).delete()
+               # model_instance = DictWord.objects.get(name=naim)
+               # model_instance.delete()
+            except:
+                print("duude")
             print("OK")
-            return render(request, 'appone/index.html', context=dict_DictWord)
+            return render(request, 'appone/index.html', context = dict_DictWord)
         else:
             messages.error(request, "Error")
 
-    return render(request,'appone/index.html', context=dict_DictWord)
-
+    return render(request,'appone/index.html',context=dict_DictWord)
 
 
 def FormView(request):
@@ -35,7 +43,5 @@ def FormView(request):
             form.save(commit=True)
             # after submit on users page we redirect the user to index page
             return index(request)
-        else:
-            print(form.error)
     ##return from view form = FirstForm() the first encounter of the page
     return render(request, 'appone/form_page.html', {'form': form})

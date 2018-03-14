@@ -18,10 +18,10 @@
     <li><strong>{{i.name}}</strong> = {{i.description}} added at {{i.created_at}}</li>
     {% endfor %}
     <hr>
-    <!--<form method="POST">-->
-    <!--{{form.as_p}}-->
-    <!--{% csrf_token %}-->
-        <!--<input type="submit" class="btn btn-primary" value="Delete Word">-->
+    <form method="POST">
+    {{form.as_p}}
+    {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Delete Word">
 <!--</form>-->
 </div>
 </body>
